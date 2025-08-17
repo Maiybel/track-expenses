@@ -1,11 +1,12 @@
 import { useCallback, useState } from 'react';
 import { Alert, Button, FlatList, StyleSheet, View } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { clearExpenses, Expense, getExpenses } from '../app/utils/storage';
 import ExpenseItem from '../components/ExpenseItem';
 
-export default function HistoryScreen({ navigation }) {
+export default function HistoryScreen() {
   const [expenses, setExpenses] = useState<Expense[]>([]);
+  const router = useRouter();
 
   const loadExpenses = async () => {
     const data = await getExpenses();
@@ -30,7 +31,7 @@ export default function HistoryScreen({ navigation }) {
           onPress: async () => {
             await clearExpenses();
             setExpenses([]);
-            navigation.navigate('Home', { refresh: true });
+            router.replace('/'); // go back to home
           },
         },
       ]
